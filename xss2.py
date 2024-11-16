@@ -19,7 +19,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from rich.panel import Panel
 
 CURRENT_VERSION = "1.0.0"
-UPDATE_CHECK_URL = "https://raw.githubusercontent.com/your-username/your-repository/main/version.txt"
+UPDATE_CHECK_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/version.txt"
 
 logging.getLogger('urllib3').setLevel(logging.CRITICAL)
 logging.getLogger('selenium.webdriver.remote.remote_connection').setLevel(logging.CRITICAL)
@@ -47,7 +47,7 @@ def check_for_updates(current_version):
 
 def download_and_replace_code():
     try:
-        code_url = "https://raw.githubusercontent.com/your-username/your-repository/main/script.py"
+        code_url = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/xss2.py"
         response = requests.get(code_url, timeout=10)
         if response.status_code == 200:
             script_content = response.text
