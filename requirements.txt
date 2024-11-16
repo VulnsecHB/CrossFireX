@@ -1,0 +1,7 @@
+requests
+selenium
+webdriver-manager
+prompt-toolkit
+colorama
+rich
+urllib3
