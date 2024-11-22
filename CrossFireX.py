@@ -18,9 +18,20 @@ import urllib3
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from rich.panel import Panel
 
-# Load the current version from the file
-with open('version.txt', 'r') as f:
-    CURRENT_VERSION = f.read().strip()
+script_dir = os.path.dirname(os.path.abspath(__file__))
+version_file_path = os.path.join(script_dir, 'version.txt')
+
+# Load the current version
+try:
+    with open(version_file_path, 'r') as f:
+        CURRENT_VERSION = f.read().strip()
+    print(Fore.CYAN + f"[ℹ️] Loaded current version: {CURRENT_VERSION}")
+except FileNotFoundError:
+    print(Fore.RED + f"[❌] version.txt not found at {version_file_path}.")
+    sys.exit(1)
+except Exception as e:
+    print(Fore.RED + f"[❌] Failed to load version.txt: {e}")
+    sys.exit(1)
 
 UPDATE_CHECK_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/version.txt"
 SCRIPT_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/CrossFireX.py"
