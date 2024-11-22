@@ -18,9 +18,13 @@ import urllib3
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from rich.panel import Panel
 
+# Load the current version from the file
 with open('version.txt', 'r') as f:
     CURRENT_VERSION = f.read().strip()
+
 UPDATE_CHECK_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/version.txt"
+SCRIPT_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/CrossFireX.py"
+
 
 logging.getLogger('urllib3').setLevel(logging.CRITICAL)
 logging.getLogger('selenium.webdriver.remote.remote_connection').setLevel(logging.CRITICAL)
@@ -30,7 +34,7 @@ logging.getLogger('socket').setLevel(logging.CRITICAL)
 def check_for_updates(current_version):
     try:
         print(Fore.YELLOW + "[🌐] Checking for updates...")
-        response = requests.get(UPDATE_CHECK_URL, timeout=5)
+        response = requests.get(UPDATE_CHECK_URL, timeout=20)
         if response.status_code == 200:
             latest_version = response.text.strip()
             if latest_version > current_version:
@@ -45,22 +49,24 @@ def check_for_updates(current_version):
     except Exception as e:
         print(Fore.RED + f"[❌] Update check failed: {e}")
 
-
 def download_and_replace_code():
     try:
-        code_url = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/CrossFireX.py"
-        response = requests.get(code_url, timeout=20)
+        print(Fore.YELLOW + "[⬇️] Downloading the latest version...")
+        response = requests.get(SCRIPT_URL, timeout=20)
         if response.status_code == 200:
             script_content = response.text
             script_path = os.path.abspath(sys.argv[0])
-                with open(script_path, 'w', encoding='utf-8') as script_file:
-                    script_file.write(script_content)
+            with open(script_path, 'w', encoding='utf-8') as script_file:
+                script_file.write(script_content)
             print(Fore.GREEN + "[✅] Update completed! Restarting the program...")
             os.execv(sys.executable, ['python'] + sys.argv)
         else:
             print(Fore.RED + "[❌] Failed to download the latest script.")
     except Exception as e:
         print(Fore.RED + f"[❌] Update failed: {e}")
+
+# Run the update check
+check_for_updates(CURRENT_VERSION)
 
 sys.stderr = open(os.devnull, 'w')
 
