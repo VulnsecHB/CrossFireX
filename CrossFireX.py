@@ -48,18 +48,20 @@ logging.getLogger('socket').setLevel(logging.CRITICAL)
 def check_for_updates_and_restart():
     """Checks for updates and restarts the script if necessary."""
     global CURRENT_VERSION
-    if os.getenv("UPDATED") == "1":
-        print(Fore.YELLOW + "[ℹ️] Script already updated and restarted. Skipping update check.")
-        return
 
-    # Reload the CURRENT_VERSION from the file
+    # Load current version
     CURRENT_VERSION = load_version()
 
     try:
         print(Fore.YELLOW + "[🌐] Checking for updates...")
+        # Fetch the latest version from the repository
         response = requests.get(UPDATE_CHECK_URL, timeout=20)
         if response.status_code == 200:
+            # Clean up the fetched version
             latest_version = response.text.strip()
+
+            # Debugging: Print versions to ensure they're loaded correctly
+            print(Fore.CYAN + f"[🔄] Current version: {CURRENT_VERSION}, Latest version: {latest_version}")
 
             # Compare versions using semantic version parsing
             if parse_version(latest_version) > parse_version(CURRENT_VERSION):
@@ -68,9 +70,7 @@ def check_for_updates_and_restart():
                 if update_choice == 'y':
                     download_and_replace_code()
                     print(Fore.CYAN + "[🔄] Restarting tool with the updated version...")
-                    # Set the UPDATED environment variable to prevent re-checking
                     os.environ["UPDATED"] = "1"
-                    # Relaunch the script
                     os.execv(sys.executable, [sys.executable] + sys.argv)
                 else:
                     print(Fore.YELLOW + "[ℹ️] Continuing with the current version.")
