@@ -330,7 +330,7 @@ def initiate_xss_tool():
         if CURRENT_VERSION is None:
             CURRENT_VERSION = load_version()
 
-        check_for_updates_and_restart(CURRENT_VERSION)
+        check_for_updates_and_restart()
 
         if not check_internet_connection():
             print(Fore.RED + "[💥] Internet connection required for the scan.")
