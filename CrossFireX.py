@@ -49,15 +49,14 @@ def check_for_updates(current_version):
         response = requests.get(UPDATE_CHECK_URL, timeout=20)
         if response.status_code == 200:
             latest_version = response.text.strip()
+            print(Fore.CYAN + f"[ℹ️] Current version: {current_version}, Latest version: {latest_version}")  # Debug print
             if latest_version > current_version:
                 print(Fore.CYAN + f"[🔄] A new version ({latest_version}) is available! You're using {current_version}.")
-                update_now = input(Fore.YELLOW + "[➡️] Do you want to update now? (y/N): ").strip().lower()
-                if update_now == 'y':
-                    download_and_replace_code()
+                # Additional logic for updating
             else:
                 print(Fore.GREEN + "[✅] You're using the latest version.")
         else:
-            print(Fore.RED + "[❌] Unable to fetch the latest version info.")
+            print(Fore.RED + "[❌] Failed to fetch the latest version. HTTP status code: {response.status_code}")
     except Exception as e:
         print(Fore.RED + f"[❌] Update check failed: {e}")
 
