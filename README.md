@@ -31,6 +31,7 @@ pip install -r requirements.txt
 # Start CrossFireX
 python3 CrossFireX.py
 
+
 💡 Note: Make sure you have Python 3.8+ installed before running the commands.
 
 🚀 Usage
