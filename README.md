@@ -1,18 +1,45 @@
-# CrossFireX
-CrossFireX is an advanced XSS vulnerability scanner designed to identify cross-site scripting vulnerabilities in web applications. It offers features such as payload injection, concurrency, headless browser testing, and version control with auto-updates, making it a valuable tool for ethical hackers and penetration testers aiming to enhance security assessments.
+🔥 CrossFireX
+Advanced XSS Vulnerability Scanner for Web Applications
 
-Installation Steps:
 
+About CrossFireX
+CrossFireX is a powerful and cutting-edge Cross-Site Scripting (XSS) vulnerability scanner. Designed for ethical hackers and penetration testers, it combines automation, precision, and ease of use to enhance your security assessments.
+
+Key Features:
+
+🚀 Payload Injection: Scans for XSS vulnerabilities with custom payloads.
+⚡ Concurrency: Perform fast scans using multi-threading.
+🖥️ Headless Browser Testing: Analyze vulnerabilities with simulated browsers.
+🔄 Version Control with Auto-Updates: Always stay updated with the latest version.
+📥 Installation
+Follow these simple steps to set up CrossFireX:
+
+bash
+Copy code
+# Clone the repository
 git clone https://github.com/VulnsecHB/CrossFireX.git
 
+# Navigate to the directory
 cd CrossFireX
 
+# Install dependencies
 pip install -r requirements.txt
 
+# Start CrossFireX
 python3 CrossFireX.py
+💡 Note: Make sure you have Python 3.8+ installed before running the commands.
 
-Ensure you have Python installed on your system before executing these commands. These steps will set up CrossFireX, allowing you to utilize its capabilities for detecting XSS vulnerabilities in your web applications.
+🚀 Usage
+Running python3 CrossFireX.py launches the interactive user interface, which:
 
-pyhton3 CrossFireX.py command will start user interafece for you
-![image](https://github.com/user-attachments/assets/fc9afb7f-689e-4bdf-aa71-1ea700b493b3)
+✅ Tests your internet connection automatically.
+🛠️ Provides options to test either:
+A single URL, or
+A file containing multiple URLs.
+💻 Example Interface
+Below is a glimpse of the CrossFireX interface in action:
+![image](https://github.com/user-attachments/assets/58dc64b4-2c9a-44f8-84d8-267657bba311)
+
+
+
 
