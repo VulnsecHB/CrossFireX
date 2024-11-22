@@ -49,7 +49,7 @@ def check_for_updates(current_version):
 def download_and_replace_code():
     try:
         code_url = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/CrossFireX.py"
-        response = requests.get(code_url, timeout=10)
+        response = requests.get(code_url, timeout=20)
         if response.status_code == 200:
             script_content = response.text
             script_path = os.path.abspath(sys.argv[0])
