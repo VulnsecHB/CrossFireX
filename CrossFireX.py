@@ -21,17 +21,19 @@ from rich.panel import Panel
 script_dir = os.path.dirname(os.path.abspath(__file__))
 version_file_path = os.path.join(script_dir, 'version.txt')
 
-# Load the current version
-try:
-    with open(version_file_path, 'r') as f:
-        CURRENT_VERSION = f.read().strip()
-    print(Fore.CYAN + f"[ℹ️] Loaded current version: {CURRENT_VERSION}")
-except FileNotFoundError:
-    print(Fore.RED + f"[❌] version.txt not found at {version_file_path}.")
-    sys.exit(1)
-except Exception as e:
-    print(Fore.RED + f"[❌] Failed to load version.txt: {e}")
-    sys.exit(1)
+def load_version():
+    """Loads the current version from the version file."""
+    try:
+        with open(version_file_path, 'r') as f:
+            version = f.read().strip()
+            print(Fore.CYAN + f"[ℹ️] Loaded current version: {version}")
+            return version
+    except FileNotFoundError:
+        print(Fore.RED + f"[❌] version.txt not found at {version_file_path}.")
+        sys.exit(1)
+    except Exception as e:
+        print(Fore.RED + f"[❌] Failed to load version.txt: {e}")
+        sys.exit(1)
 
 UPDATE_CHECK_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/version.txt"
 SCRIPT_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/CrossFireX.py"
@@ -44,7 +46,7 @@ logging.getLogger('socket').setLevel(logging.CRITICAL)
 
 
 def check_for_updates_and_restart(current_version):
-    # Check if the script has already been restarted after an update
+    """Checks for updates and restarts the script if necessary."""
     if os.getenv("UPDATED") == "1":
         print(Fore.YELLOW + "[ℹ️] Script already updated and restarted. Skipping update check.")
         return
@@ -71,6 +73,7 @@ def check_for_updates_and_restart(current_version):
 
 
 def download_and_replace_code():
+    """Downloads and replaces the script with the latest version."""
     try:
         print(Fore.YELLOW + "[⬇️] Downloading the latest version...")
         response = requests.get(SCRIPT_URL, timeout=60)
@@ -318,7 +321,8 @@ def initiate_xss_tool():
 
         print(35*" " + f"current version: {CURRENT_VERSION}")
 
-        check_for_updates_and_restart(CURRENT_VERSION) 
+        global CURRENT_VERSION
+        CURRENT_VERSION = load_version()
 
         if not check_internet_connection():
             print(Fore.RED + "[💥] Internet connection required for the scan.")
