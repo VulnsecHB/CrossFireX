@@ -46,19 +46,23 @@ logging.getLogger('selenium.webdriver.chrome.service').setLevel(logging.CRITICAL
 logging.getLogger('socket').setLevel(logging.CRITICAL)
 
 
-def check_for_updates_and_restart(current_version):
+def check_for_updates_and_restart():
     """Checks for updates and restarts the script if necessary."""
+    global CURRENT_VERSION
     if os.getenv("UPDATED") == "1":
         print(Fore.YELLOW + "[ℹ️] Script already updated and restarted. Skipping update check.")
         return
+
+    # Reload the CURRENT_VERSION from the file each time updates are checked
+    CURRENT_VERSION = load_version()
 
     try:
         print(Fore.YELLOW + "[🌐] Checking for updates...")
         response = requests.get(UPDATE_CHECK_URL, timeout=20)
         if response.status_code == 200:
             latest_version = response.text.strip()
-            if latest_version > current_version:
-                print(Fore.CYAN + f"[🔄] A new version ({latest_version}) is available! You're using {current_version}.")
+            if latest_version > CURRENT_VERSION:
+                print(Fore.CYAN + f"[🔄] A new version ({latest_version}) is available! You're using {CURRENT_VERSION}.")
                 download_and_replace_code()
                 print(Fore.CYAN + "[🔄] Restarting tool with the updated version...")
                 # Set the UPDATED environment variable to prevent re-checking
