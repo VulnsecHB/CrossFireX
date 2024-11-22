@@ -34,16 +34,18 @@ python3 CrossFireX.py
 💡 Note: Make sure you have Python 3.8+ installed before running the commands.
 
 🚀 Usage
+
 Running python3 CrossFireX.py launches the interactive user interface, which:
 
 ✅ Tests your internet connection automatically.
 
 🛠️ Provides options to test either:
 
-A single URL, or
+A single URL or
 A file containing multiple URLs.
 
 💻 Example Interface
+
 Below is a glimpse of the CrossFireX interface in action:
 ![image](https://github.com/user-attachments/assets/58dc64b4-2c9a-44f8-84d8-267657bba311)
 
