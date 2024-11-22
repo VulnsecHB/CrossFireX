@@ -9,6 +9,10 @@ cd CrossFireX
 
 pip install -r requirements.txt
 
-python CrossFireX.py
+python3 CrossFireX.py
 
 Ensure you have Python installed on your system before executing these commands. These steps will set up CrossFireX, allowing you to utilize its capabilities for detecting XSS vulnerabilities in your web applications.
+
+pyhton3 CrossFireX.py command will start user interafece for you
+![image](https://github.com/user-attachments/assets/fc9afb7f-689e-4bdf-aa71-1ea700b493b3)
+
