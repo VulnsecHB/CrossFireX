@@ -316,13 +316,13 @@ def initiate_xss_tool():
         print(Fore.CYAN + name)
 
     def main_tool():
+        global CURRENT_VERSION
         reset_console()
 
         display_name()
 
         print(35*" " + f"current version: {CURRENT_VERSION}")
 
-        global CURRENT_VERSION
         if CURRENT_VERSION is None:
             CURRENT_VERSION = load_version()
 
