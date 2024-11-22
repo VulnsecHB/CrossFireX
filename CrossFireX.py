@@ -74,7 +74,7 @@ def check_network_quality():
         return False
 
 
-def init_xss_tool():
+def init():
     logging.basicConfig(level=logging.ERROR)
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     logging.getLogger('WDM').setLevel(logging.ERROR)
@@ -290,4 +290,4 @@ def init_xss_tool():
     main_tool()
 
 
-init_xss_tool()
+init()
