@@ -18,7 +18,7 @@ import urllib3
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from rich.panel import Panel
 
-CURRENT_VERSION = "1.0.0"
+CURRENT_VERSION = print(version.txt)
 UPDATE_CHECK_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/version.txt"
 
 logging.getLogger('urllib3').setLevel(logging.CRITICAL)
