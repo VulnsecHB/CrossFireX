@@ -31,6 +31,7 @@ logging.getLogger('selenium.webdriver.remote.remote_connection').setLevel(loggin
 logging.getLogger('selenium.webdriver.chrome.service').setLevel(logging.CRITICAL)
 logging.getLogger('socket').setLevel(logging.CRITICAL)
 
+
 def check_for_updates(current_version):
     try:
         print(Fore.YELLOW + "[🌐] Checking for updates...")
@@ -55,18 +56,17 @@ def download_and_replace_code():
         response = requests.get(SCRIPT_URL, timeout=20)
         if response.status_code == 200:
             script_content = response.text
-            script_path = os.path.abspath(sys.argv[0])
+            # Save the updated script in a user-writable directory
+            home_dir = os.path.expanduser("~")
+            script_path = os.path.join(home_dir, "CrossFireX.py")
             with open(script_path, 'w', encoding='utf-8') as script_file:
                 script_file.write(script_content)
-            print(Fore.GREEN + "[✅] Update completed! Restarting the program...")
-            os.execv(sys.executable, ['python'] + sys.argv)
+            print(Fore.GREEN + f"[✅] Update completed! Updated script saved at: {script_path}")
+            print(Fore.CYAN + f"[💡] To run the updated version: python {script_path}")
         else:
             print(Fore.RED + "[❌] Failed to download the latest script.")
     except Exception as e:
         print(Fore.RED + f"[❌] Update failed: {e}")
-
-# Run the update check
-check_for_updates(CURRENT_VERSION)
 
 sys.stderr = open(os.devnull, 'w')
 
