@@ -262,7 +262,7 @@ def initiate_xss_tool():
                         url_entries = [line.strip() for line in file if line.strip()]
                     return url_entries, 'file'
                 else:
-                    single_url = input(Fore.MAGENTA + "[➡️ ] Enter a single URL to scan: nlabla ").strip()
+                    single_url = input(Fore.MAGENTA + "[➡️ ] Enter a single URL to scan: ").strip()
                     if single_url:
                         return [single_url], 'single'
                     else:
