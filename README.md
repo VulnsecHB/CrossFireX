@@ -1,4 +1,5 @@
 🔥 CrossFireX
+
 Advanced XSS Vulnerability Scanner for Web Applications
 
 
@@ -8,9 +9,13 @@ CrossFireX is a powerful and cutting-edge Cross-Site Scripting (XSS) vulnerabili
 Key Features:
 
 🚀 Payload Injection: Scans for XSS vulnerabilities with custom payloads.
+
 ⚡ Concurrency: Perform fast scans using multi-threading.
+
 🖥️ Headless Browser Testing: Analyze vulnerabilities with simulated browsers.
+
 🔄 Version Control with Auto-Updates: Always stay updated with the latest version.
+
 📥 Installation
 Follow these simple steps to set up CrossFireX:
 
@@ -27,6 +32,7 @@ pip install -r requirements.txt
 
 # Start CrossFireX
 python3 CrossFireX.py
+
 💡 Note: Make sure you have Python 3.8+ installed before running the commands.
 
 🚀 Usage
