@@ -43,45 +43,38 @@ logging.getLogger('selenium.webdriver.chrome.service').setLevel(logging.CRITICAL
 logging.getLogger('socket').setLevel(logging.CRITICAL)
 
 
-def check_for_updates(current_version):
+def check_for_updates_and_restart(current_version):
     try:
         print(Fore.YELLOW + "[🌐] Checking for updates...")
         response = requests.get(UPDATE_CHECK_URL, timeout=20)
         if response.status_code == 200:
             latest_version = response.text.strip()
-            print(Fore.CYAN + f"[ℹ️] Current version: {current_version}, Latest version: {latest_version}")  # Debug print
             if latest_version > current_version:
                 print(Fore.CYAN + f"[🔄] A new version ({latest_version}) is available! You're using {current_version}.")
-                # Additional logic for updating
+                download_and_replace_code()
+                print(Fore.CYAN + "[🔄] Restarting tool with the updated version...")
+                # Relaunch the script
+                os.execv(sys.executable, [sys.executable] + sys.argv)
             else:
                 print(Fore.GREEN + "[✅] You're using the latest version.")
         else:
-            print(Fore.RED + "[❌] Failed to fetch the latest version. HTTP status code: {response.status_code}")
+            print(Fore.RED + f"[❌] Failed to fetch the latest version. HTTP status code: {response.status_code}")
     except Exception as e:
         print(Fore.RED + f"[❌] Update check failed: {e}")
+
 
 def download_and_replace_code():
     try:
         print(Fore.YELLOW + "[⬇️] Downloading the latest version...")
-        print(Fore.CYAN + f"[ℹ️] Attempting to download script from: {SCRIPT_URL}")  # Debug print
-        
         response = requests.get(SCRIPT_URL, timeout=60)
-        
-        print(Fore.CYAN + f"[ℹ️] HTTP Response Status: {response.status_code}")  # Debug print
-        
         if response.status_code == 200:
             script_content = response.text
-            # Save the updated script in the user's home directory
-            home_dir = os.path.expanduser("~")
-            script_path = os.path.join(home_dir, "CrossFireX.py")
+            script_path = os.path.abspath(__file__)  # Get the current script's path
             with open(script_path, 'w', encoding='utf-8') as script_file:
                 script_file.write(script_content)
-            print(Fore.GREEN + f"[✅] Update completed! Updated script saved at: {script_path}")
-            print(Fore.CYAN + f"[💡] To run the updated version: python {script_path}")
+            print(Fore.GREEN + "[✅] Update completed! The script is now up-to-date.")
         else:
-            # Additional debug print for response details in case of failure
             print(Fore.RED + f"[❌] Failed to download the latest script. HTTP status code: {response.status_code}")
-            print(Fore.RED + f"[❌] Response Content: {response.text}")  # Debug print for failure
     except Exception as e:
         print(Fore.RED + f"[❌] Update failed: {e}")
 
@@ -318,7 +311,7 @@ def initiate_xss_tool():
 
         print(35*" " + f"current version: {CURRENT_VERSION}")
 
-        check_for_updates(CURRENT_VERSION) 
+        check_for_updates_and_restart(CURRENT_VERSION) 
 
         if not check_internet_connection():
             print(Fore.RED + "[💥] Internet connection required for the scan.")
