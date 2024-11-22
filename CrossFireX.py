@@ -53,7 +53,12 @@ def check_for_updates(current_version):
 def download_and_replace_code():
     try:
         print(Fore.YELLOW + "[⬇️] Downloading the latest version...")
+        print(Fore.CYAN + f"[ℹ️] Attempting to download script from: {SCRIPT_URL}")  # Debug print
+        
         response = requests.get(SCRIPT_URL, timeout=60)
+        
+        print(Fore.CYAN + f"[ℹ️] HTTP Response Status: {response.status_code}")  # Debug print
+        
         if response.status_code == 200:
             script_content = response.text
             # Save the updated script in the user's home directory
@@ -64,7 +69,9 @@ def download_and_replace_code():
             print(Fore.GREEN + f"[✅] Update completed! Updated script saved at: {script_path}")
             print(Fore.CYAN + f"[💡] To run the updated version: python {script_path}")
         else:
+            # Additional debug print for response details in case of failure
             print(Fore.RED + f"[❌] Failed to download the latest script. HTTP status code: {response.status_code}")
+            print(Fore.RED + f"[❌] Response Content: {response.text}")  # Debug print for failure
     except Exception as e:
         print(Fore.RED + f"[❌] Update failed: {e}")
 
