@@ -4,8 +4,11 @@ CrossFireX is an advanced XSS vulnerability scanner designed to identify cross-s
 Installation Steps:
 
 git clone https://github.com/VulnsecHB/CrossFireX.git
+
 cd CrossFireX
+
 pip install -r requirements.txt
+
 python CrossFireX.py
 
 Ensure you have Python installed on your system before executing these commands. These steps will set up CrossFireX, allowing you to utilize its capabilities for detecting XSS vulnerabilities in your web applications.
