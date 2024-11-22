@@ -52,8 +52,9 @@ def download_and_replace_code():
         response = requests.get(code_url, timeout=10)
         if response.status_code == 200:
             script_content = response.text
-            with open(sys.argv[0], 'w', encoding='utf-8') as script_file:
-                script_file.write(script_content)
+            script_path = os.path.abspath(sys.argv[0])
+                with open(script_path, 'w', encoding='utf-8') as script_file:
+                    script_file.write(script_content)
             print(Fore.GREEN + "[✅] Update completed! Restarting the program...")
             os.execv(sys.executable, ['python'] + sys.argv)
         else:
