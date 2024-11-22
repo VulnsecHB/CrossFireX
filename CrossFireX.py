@@ -17,6 +17,7 @@ from rich.console import Console
 import urllib3
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from rich.panel import Panel
+from packaging.version import parse as parse_version 
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 version_file_path = os.path.join(script_dir, 'version.txt')
@@ -53,7 +54,7 @@ def check_for_updates_and_restart():
         print(Fore.YELLOW + "[ℹ️] Script already updated and restarted. Skipping update check.")
         return
 
-    # Reload the CURRENT_VERSION from the file each time updates are checked
+    # Reload the CURRENT_VERSION from the file
     CURRENT_VERSION = load_version()
 
     try:
@@ -61,7 +62,9 @@ def check_for_updates_and_restart():
         response = requests.get(UPDATE_CHECK_URL, timeout=20)
         if response.status_code == 200:
             latest_version = response.text.strip()
-            if latest_version > CURRENT_VERSION:
+
+            # Compare versions using semantic version parsing
+            if parse_version(latest_version) > parse_version(CURRENT_VERSION):
                 print(Fore.CYAN + f"[🔄] A new version ({latest_version}) is available! You're using {CURRENT_VERSION}.")
                 download_and_replace_code()
                 print(Fore.CYAN + "[🔄] Restarting tool with the updated version...")
