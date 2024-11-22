@@ -20,6 +20,7 @@ from rich.panel import Panel
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 version_file_path = os.path.join(script_dir, 'version.txt')
+CURRENT_VERSION = None
 
 def load_version():
     """Loads the current version from the version file."""
@@ -322,7 +323,10 @@ def initiate_xss_tool():
         print(35*" " + f"current version: {CURRENT_VERSION}")
 
         global CURRENT_VERSION
-        CURRENT_VERSION = load_version()
+            if CURRENT_VERSION is None:
+                CURRENT_VERSION = load_version()
+
+        check_for_updates_and_restart(CURRENT_VERSION)
 
         if not check_internet_connection():
             print(Fore.RED + "[💥] Internet connection required for the scan.")
