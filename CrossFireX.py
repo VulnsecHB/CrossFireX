@@ -246,7 +246,7 @@ def init():
         ░ ░         ░         ░ ░        ░        ░          ░     ░        ░  ░ ░    ░  
         ░                                                                                
                             Enhanced XSS Vulnerability Scanner
-                                    Created by @Vulnsec-417
+                                    Created by @VulnsecHB
         """
         print(Fore.CYAN + name)
 
