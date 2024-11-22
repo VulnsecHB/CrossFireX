@@ -324,7 +324,7 @@ def initiate_xss_tool():
 
         global CURRENT_VERSION
         if CURRENT_VERSION is None:
-                CURRENT_VERSION = load_version()
+            CURRENT_VERSION = load_version()
 
         check_for_updates_and_restart(CURRENT_VERSION)
 
