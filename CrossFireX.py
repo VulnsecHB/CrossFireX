@@ -17,84 +17,11 @@ from rich.console import Console
 import urllib3
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from rich.panel import Panel
-from packaging.version import parse as parse_version 
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-version_file_path = os.path.join(script_dir, 'version.txt')
-CURRENT_VERSION = None
-
-def load_version():
-    """Loads the current version from the version file."""
-    try:
-        with open(version_file_path, 'r') as f:
-            version = f.read().strip()
-            print(Fore.CYAN + f"[ℹ️] Loaded current version: {version}")
-            return version
-    except FileNotFoundError:
-        print(Fore.RED + f"[❌] version.txt not found at {version_file_path}.")
-        sys.exit(1)
-    except Exception as e:
-        print(Fore.RED + f"[❌] Failed to load version.txt: {e}")
-        sys.exit(1)
-
-UPDATE_CHECK_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/version.txt"
-SCRIPT_URL = "https://raw.githubusercontent.com/VulnsecHB/CrossFireX/main/CrossFireX.py"
-
 
 logging.getLogger('urllib3').setLevel(logging.CRITICAL)
 logging.getLogger('selenium.webdriver.remote.remote_connection').setLevel(logging.CRITICAL)
 logging.getLogger('selenium.webdriver.chrome.service').setLevel(logging.CRITICAL)
 logging.getLogger('socket').setLevel(logging.CRITICAL)
-
-
-def check_for_updates_and_restart():
-    """Checks for updates and restarts the script if necessary."""
-    global CURRENT_VERSION
-    if os.getenv("UPDATED") == "1":
-        print(Fore.YELLOW + "[ℹ️] Script already updated and restarted. Skipping update check.")
-        return
-
-    # Reload the CURRENT_VERSION from the file
-    CURRENT_VERSION = load_version()
-
-    try:
-        print(Fore.YELLOW + "[🌐] Checking for updates...")
-        response = requests.get(UPDATE_CHECK_URL, timeout=20)
-        if response.status_code == 200:
-            latest_version = response.text.strip()
-
-            # Compare versions using semantic version parsing
-            if parse_version(latest_version) > parse_version(CURRENT_VERSION):
-                print(Fore.CYAN + f"[🔄] A new version ({latest_version}) is available! You're using {CURRENT_VERSION}.")
-                download_and_replace_code()
-                print(Fore.CYAN + "[🔄] Restarting tool with the updated version...")
-                # Set the UPDATED environment variable to prevent re-checking
-                os.environ["UPDATED"] = "1"
-                # Relaunch the script
-                os.execv(sys.executable, [sys.executable] + sys.argv)
-            else:
-                print(Fore.GREEN + "[✅] You're using the latest version.")
-        else:
-            print(Fore.RED + f"[❌] Failed to fetch the latest version. HTTP status code: {response.status_code}")
-    except Exception as e:
-        print(Fore.RED + f"[❌] Update check failed: {e}")
-
-
-def download_and_replace_code():
-    """Downloads and replaces the script with the latest version."""
-    try:
-        print(Fore.YELLOW + "[⬇️] Downloading the latest version...")
-        response = requests.get(SCRIPT_URL, timeout=60)
-        if response.status_code == 200:
-            script_content = response.text
-            script_path = os.path.abspath(__file__)  # Get the current script's path
-            with open(script_path, 'w', encoding='utf-8') as script_file:
-                script_file.write(script_content)
-            print(Fore.GREEN + "[✅] Update completed! The script is now up-to-date.")
-        else:
-            print(Fore.RED + f"[❌] Failed to download the latest script. HTTP status code: {response.status_code}")
-    except Exception as e:
-        print(Fore.RED + f"[❌] Update failed: {e}")
 
 sys.stderr = open(os.devnull, 'w')
 
@@ -106,7 +33,6 @@ options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--log-level=3")
 options.add_argument("--disable-logging")
-
 
 def check_internet_connection():
     try:
@@ -122,7 +48,6 @@ def check_internet_connection():
     except requests.Timeout:
         print(Fore.RED + "[❌] Internet connection timeout.")
         return False
-
 
 def check_network_quality():
     try:
@@ -144,7 +69,6 @@ def check_network_quality():
     except requests.Timeout:
         print(Fore.RED + "[❌] Network quality check timeout.")
         return False
-
 
 def initiate_xss_tool():
     logging.basicConfig(level=logging.ERROR)
@@ -323,17 +247,9 @@ def initiate_xss_tool():
         print(Fore.CYAN + name)
 
     def main_tool():
-        global CURRENT_VERSION
         reset_console()
 
         display_name()
-
-        print(35*" " + f"current version: {CURRENT_VERSION}")
-
-        if CURRENT_VERSION is None:
-            CURRENT_VERSION = load_version()
-
-        check_for_updates_and_restart()
 
         if not check_internet_connection():
             print(Fore.RED + "[💥] Internet connection required for the scan.")
@@ -368,6 +284,5 @@ def initiate_xss_tool():
         display_scan_results(len(all_vulnerable_urls), vulnerable_payloads, total_scanned_count, scan_start_time)
 
     main_tool()
-
 
 initiate_xss_tool()
