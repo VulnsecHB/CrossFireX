@@ -53,10 +53,10 @@ def check_for_updates(current_version):
 def download_and_replace_code():
     try:
         print(Fore.YELLOW + "[⬇️] Downloading the latest version...")
-        response = requests.get(SCRIPT_URL, timeout=20)
+        response = requests.get(SCRIPT_URL, timeout=60)
         if response.status_code == 200:
             script_content = response.text
-            # Save the updated script in a user-writable directory
+            # Save the updated script in the user's home directory
             home_dir = os.path.expanduser("~")
             script_path = os.path.join(home_dir, "CrossFireX.py")
             with open(script_path, 'w', encoding='utf-8') as script_file:
@@ -64,7 +64,7 @@ def download_and_replace_code():
             print(Fore.GREEN + f"[✅] Update completed! Updated script saved at: {script_path}")
             print(Fore.CYAN + f"[💡] To run the updated version: python {script_path}")
         else:
-            print(Fore.RED + "[❌] Failed to download the latest script.")
+            print(Fore.RED + f"[❌] Failed to download the latest script. HTTP status code: {response.status_code}")
     except Exception as e:
         print(Fore.RED + f"[❌] Update failed: {e}")
 
